@@ -1,5 +1,5 @@
 # Prototyping
 
-# Thanas Dushku
-# Younsuk Choi
-# Luis Cabezas Suarez
+Thanas Dushku
+Younsuk Choi
+Luis Cabezas Suarez
