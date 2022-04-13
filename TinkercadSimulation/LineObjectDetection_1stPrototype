@@ -1,0 +1,167 @@
+#define trigPin 12
+#define echoPin 13
+//temp led to display the "state" of the system
+#define redPin 1
+#define greenPin 3
+//left motor
+#define enableA 10
+#define motorPinA1 9
+#define motorPinA2 8
+//right motor
+#define enableB 5
+#define motorPinB1 7
+#define motorPinB2 6
+//line sensors
+#define sensorPinLeft 2
+#define sensorPinRight 4
+
+#define black LOW
+#define white HIGH
+
+
+int sensorValueLeft, sensorValueRight;
+
+const int objDistance = 40;
+const int speedForward = 160;
+const int speedTurn = 125;
+const int speedTurnSlow = 100;
+const int speedTurnFast = 20;
+long duration, distance;
+
+
+void setup(){
+  
+ pinMode(trigPin, OUTPUT);
+ pinMode(echoPin, INPUT);
+
+ pinMode(enableA, OUTPUT);
+ pinMode(enableB, OUTPUT);
+ pinMode(motorPinA1, OUTPUT);
+ pinMode(motorPinA2, OUTPUT);
+ pinMode(motorPinB1, OUTPUT);
+ pinMode(motorPinB2, OUTPUT);
+  
+ pinMode(redPin, OUTPUT);
+ pinMode(greenPin, OUTPUT);
+
+ pinMode(sensorPinLeft,INPUT);
+ pinMode(sensorPinRight,INPUT);
+
+   analogWrite(enableA, speedForward);
+  analogWrite(enableB, speedForward);
+
+}
+
+
+void loop(){
+/*
+forward();
+delay(2000);
+leftSlow();
+delay(2000);
+vehicleStop();
+delay(2000);
+rightSlow();
+delay(2000); */
+
+control();
+}
+
+void control(){
+
+ /* getDistance();
+
+ 
+ 
+ if (distance < objDistance){        //obstatcle too close
+   vehicleStop();
+   
+ }   
+ 
+  
+ if (distance > objDistance){  */
+     sensorValueLeft = digitalRead(sensorPinLeft);
+     sensorValueRight = digitalRead(sensorPinRight);
+ 
+    if(sensorValueLeft == white && sensorValueRight == white){
+      forward();
+    }
+    else if(sensorValueLeft == black && sensorValueRight == white){
+      leftSlow();
+    } 
+    else if(sensorValueLeft == white && sensorValueRight == black){
+      rightSlow();
+    } 
+    else if(sensorValueLeft == black && sensorValueRight == black){
+      vehicleStop();
+    }
+  /* } */
+  delay(10);
+  
+}
+
+int getDistance(){
+  
+ digitalWrite(trigPin, LOW);    //pinging for obstacle
+ delayMicroseconds(2);
+ digitalWrite(trigPin, HIGH);
+ delayMicroseconds(10); 
+ digitalWrite(trigPin, LOW);
+  
+ duration = pulseIn(echoPin, HIGH);    //calculating the distance
+ distance = duration/58.2;
+  
+}
+
+int forward(){
+  digitalWrite(motorPinA1, LOW);
+  digitalWrite(motorPinA2, HIGH);
+  digitalWrite(motorPinB1, LOW);
+  digitalWrite(motorPinB2, HIGH);
+
+
+}
+
+int vehicleStop(){
+  digitalWrite(motorPinA1, LOW);
+  digitalWrite(motorPinA2, LOW);
+  digitalWrite(motorPinB1, LOW);
+  digitalWrite(motorPinB2, LOW);
+
+}
+
+int left(){
+  analogWrite(motorPinA1, 20);
+  analogWrite(motorPinB1, 30);
+}
+int leftFast(){
+  analogWrite(motorPinA1, 10);
+  analogWrite(motorPinB1, 30);
+}
+
+int rightSlow(){
+  digitalWrite(motorPinA1, LOW);
+  digitalWrite(motorPinA2, HIGH);
+  digitalWrite(motorPinB1, LOW);
+  digitalWrite(motorPinB2, LOW);
+
+}
+
+int right(){
+  analogWrite(motorPinA1, 30);
+  analogWrite(motorPinB1, 20);
+}
+
+int rightFast(){
+  analogWrite(motorPinA1, 30);
+  analogWrite(motorPinB1, 10);
+}
+
+int leftSlow(){
+
+  digitalWrite(motorPinA1, LOW);
+  digitalWrite(motorPinA2, LOW);
+  digitalWrite(motorPinB1, LOW);
+  digitalWrite(motorPinB2, HIGH);
+
+}
