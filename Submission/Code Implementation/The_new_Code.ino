@@ -1,3 +1,5 @@
+We Made a change on thr arrays to start in Points O,O and O,1
+
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 int points[3][2] = {{1,1}, {4,2}, {2,0}}; // Start on point 1,1 and first drive to 3,3 and from there, drive to 5,2.
